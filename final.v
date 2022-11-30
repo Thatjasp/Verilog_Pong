@@ -1,5 +1,6 @@
-module final(clk, rst, button,button2, led, VGA_CLK, VGA_VS, VGA_HS, VGA_BLANK_N, VGA_SYNC_N, VGA_R, VGA_G, VGA_B);
+module final(clk, rst, button,button2, led, VGA_CLK, VGA_VS, VGA_HS, VGA_BLANK_N, VGA_SYNC_N, VGA_R, VGA_G, VGA_B, HEX0, HEX2);
 
+output [6:0] HEX0, HEX2;
 input clk;
 input rst;
 input [2:0] button;
@@ -51,9 +52,13 @@ reg ball_xdir, ball_ydir;
 reg [17:0]draw;
 wire frame;
 
+reg [3:0] left_score;
+reg [3:0] right_score;
+
 assign led[5:0] = S; //displaying what state we are in
 
-
+seven_segment left(left_score, HEX0);
+seven_segment right(right_score, HEX2);
 parameter
 	START			   = 6'd0,
    INIT_PADDLE    = 6'd1,
@@ -71,6 +76,11 @@ parameter
    DRAW_BALL      = 6'd13,
    GAME_WON       = 6'd14,
 	GAME_OVER		= 6'd15,
+	WAIT				= 6'd17,
+	WIN_LEFT			= 6'd18,
+	WIN_RIGHT		= 6'd19,
+	SCORE_LEFT		= 6'd20,
+	SCORE_RIGHT		= 6'd21,
 	ERROR 			= 6'hF;
 
 	
@@ -92,9 +102,13 @@ parameter
 		colour = 3'b000; // Background color
 		x = 8'b00000000;
 		y = 8'b00000000;
+		
 
-	if (~rst)
+	if (~rst) begin
 		S = START;
+		left_score = 4'd0;
+		right_score = 4'd0;
+	end
 	case (S)
 	
 		START: 
@@ -118,7 +132,7 @@ parameter
 			begin
 				pad_x = 8'd10;		//Placement of paddle
 				pad_y = 8'd52; 	// Placement of paddle
-				x = pad_x + draw[7];		//size of paddle (x)
+				x = pad_x;		//size of paddle (x)
 				y = pad_y + draw[3:0];	//size of paddle (y)
 				draw = draw + 1'b1;
 				colour = 3'b000;
@@ -135,7 +149,7 @@ parameter
 			begin
 				pad2_x = 8'd150;		//Placement of paddle
 				pad2_y = 8'd52; 	// Placement of paddle
-				x = pad2_x + draw[7];		//size of paddle (x)
+				x = pad2_x;		//size of paddle (x)
 				y = pad2_y + draw[3:0];	//size of paddle (y)
 				draw = draw + 1'b1;
 				colour = 3'b000;
@@ -149,8 +163,8 @@ parameter
 		
 		INIT_BALL: 
 		begin
-			ball_x = 8'd40;	// Placement of ball
-			ball_y = 8'd40; 	// Placement of ball
+			ball_x = 8'd80;	// Placement of ball
+			ball_y = 8'd60; 	// Placement of ball
 			x = ball_x;
 			y = ball_y;
 			colour = 3'b000;
@@ -187,7 +201,7 @@ parameter
 		begin
 			if (draw < 6'b100000) 
 			begin
-				x = pad_x + draw[7];
+				x = pad_x;
 				y = pad_y + draw[3:0];
 				draw = draw + 1'b1;
 				colour = 3'b111;
@@ -228,7 +242,7 @@ parameter
 		begin
 			if (draw < 6'b100000) 
 			begin
-				x = pad2_x + draw[7];
+				x = pad2_x;
 				y = pad2_y + draw[3:0];
 				draw = draw + 1'b1;
 				colour = 3'b111;
@@ -271,13 +285,30 @@ parameter
 				ball_ydir = ~ball_ydir;
 
 			if (ball_x <= 8'd0) // y boundary below paddle = GAME OVER!!!!!
-				S = GAME_OVER;
+				S = SCORE_RIGHT;
 			else if (ball_x >= 8'd160) 
-				S = GAME_OVER;
+				S = SCORE_LEFT;
 			else
 				S = DRAW_BALL;
 		end
-		
+		SCORE_LEFT:
+		begin
+			left_score = left_score + 4'd1;
+			if ( left_score < 4 ) 
+				S = START;
+			else
+				S = GAME_OVER;
+		end
+
+
+		SCORE_RIGHT:
+		begin
+		right_score = right_score + 4'd1;
+		if ( right_score < 4 ) 
+			S = START;
+		else
+			S = GAME_OVER;
+		end
 		DRAW_BALL:
 		begin
 			x = ball_x;
