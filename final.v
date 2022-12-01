@@ -50,7 +50,7 @@ reg [7:0]pad_x, pad_y, pad2_x, pad2_y;
 reg [7:0]ball_x, ball_y;
 reg [2:0]colour;
 reg ball_xdir, ball_ydir;
-reg [17:0]draw;
+reg [7:0] drawLine;
 reg [17:0] drawBackgroundCounter;
 reg [7:0] yPaddleCounter;
 wire frame;
@@ -64,6 +64,7 @@ seven_segment left(left_score, HEX0);
 seven_segment right(right_score, HEX2);
 parameter
 	START			   = 6'd0,
+	INIT_LINE		= 6'd22,
    INIT_PADDLE    = 6'd1,
 	INIT_PADDLE_2	= 6'd2,
    INIT_BALL   	= 6'd3,
@@ -84,6 +85,7 @@ parameter
 	WIN_RIGHT		= 6'd19,
 	SCORE_LEFT		= 6'd20,
 	SCORE_RIGHT		= 6'd21,
+	MAX_HEIGHT		= 8'd120,
 	ERROR 			= 6'hF;
 
 always @(posedge clk)
@@ -103,7 +105,14 @@ begin
 				if (drawBackgroundCounter < 17'b10000000000000000)
 					NS = START;
 				else
-					NS =  INIT_PADDLE;
+					NS = INIT_LINE;
+			end
+			INIT_LINE: 
+			begin
+			if (drawLine < MAX_HEIGHT)
+				NS = INIT_LINE;
+			else
+				NS = INIT_PADDLE;
 			end
 			INIT_PADDLE:
 			begin
@@ -213,7 +222,7 @@ begin
 		right_score <= 4'd0;
 		drawBackgroundCounter <= 17'd0;
 		yPaddleCounter <= 8'd0;
-		
+		drawLine <= 8'd0;
 	end
 	case (S)
 	
@@ -237,7 +246,17 @@ begin
 				ball_y <= 8'd60; 	// Placement of ball
 			end
 		end
-		
+		INIT_LINE:
+		begin
+		if (drawLine < MAX_HEIGHT) begin
+			x <= 8'd80;
+			y <= drawLine;
+			drawLine <= drawLine + 8'd2;
+			colour <= 3'b111;
+		end
+		else 
+			drawLine <= 8'd0;
+		end
 		INIT_PADDLE: 
 		begin
 			if (yPaddleCounter < 5'b10000)

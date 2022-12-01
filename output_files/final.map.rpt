@@ -1,5 +1,5 @@
 Analysis & Synthesis report for final
-Thu Dec 01 11:56:26 2022
+Thu Dec 01 12:34:21 2022
 Quartus Prime Version 16.1.0 Build 196 10/24/2016 SJ Lite Edition
 
 
@@ -59,15 +59,15 @@ agreement for further details.
 +----------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                     ;
 +------------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status        ; Successful - Thu Dec 01 11:56:26 2022       ;
+; Analysis & Synthesis Status        ; Successful - Thu Dec 01 12:34:21 2022       ;
 ; Quartus Prime Version              ; 16.1.0 Build 196 10/24/2016 SJ Lite Edition ;
 ; Revision Name                      ; final                                       ;
 ; Top-level Entity Name              ; final                                       ;
 ; Family                             ; Cyclone IV E                                ;
-; Total logic elements               ; 416                                         ;
-;     Total combinational functions  ; 411                                         ;
-;     Dedicated logic registers      ; 149                                         ;
-; Total registers                    ; 149                                         ;
+; Total logic elements               ; 443                                         ;
+;     Total combinational functions  ; 438                                         ;
+;     Dedicated logic registers      ; 157                                         ;
+; Total registers                    ; 157                                         ;
 ; Total pins                         ; 75                                          ;
 ; Total virtual pins                 ; 0                                           ;
 ; Total memory bits                  ; 57,600                                      ;
@@ -175,8 +175,7 @@ agreement for further details.
 ;                            ;             ;
 ; Usage by Processor         ; % Time Used ;
 ;     Processor 1            ; 100.0%      ;
-;     Processor 2            ;   0.0%      ;
-;     Processors 3-4         ;   0.0%      ;
+;     Processors 2-4         ;   0.0%      ;
 +----------------------------+-------------+
 
 
@@ -216,20 +215,20 @@ agreement for further details.
 +---------------------------------------------+-----------+
 ; Resource                                    ; Usage     ;
 +---------------------------------------------+-----------+
-; Estimated Total logic elements              ; 416       ;
+; Estimated Total logic elements              ; 443       ;
 ;                                             ;           ;
-; Total combinational functions               ; 411       ;
+; Total combinational functions               ; 438       ;
 ; Logic element usage by number of LUT inputs ;           ;
-;     -- 4 input functions                    ; 144       ;
-;     -- 3 input functions                    ; 119       ;
-;     -- <=2 input functions                  ; 148       ;
+;     -- 4 input functions                    ; 147       ;
+;     -- 3 input functions                    ; 112       ;
+;     -- <=2 input functions                  ; 179       ;
 ;                                             ;           ;
 ; Logic elements by mode                      ;           ;
-;     -- normal mode                          ; 248       ;
-;     -- arithmetic mode                      ; 163       ;
+;     -- normal mode                          ; 269       ;
+;     -- arithmetic mode                      ; 169       ;
 ;                                             ;           ;
-; Total registers                             ; 149       ;
-;     -- Dedicated logic registers            ; 149       ;
+; Total registers                             ; 157       ;
+;     -- Dedicated logic registers            ; 157       ;
 ;     -- I/O registers                        ; 0         ;
 ;                                             ;           ;
 ; I/O pins                                    ; 75        ;
@@ -241,9 +240,9 @@ agreement for further details.
 ;     -- PLLs                                 ; 1         ;
 ;                                             ;           ;
 ; Maximum fan-out node                        ; clk~input ;
-; Maximum fan-out                             ; 129       ;
-; Total fan-out                               ; 2032      ;
-; Average fan-out                             ; 2.82      ;
+; Maximum fan-out                             ; 137       ;
+; Total fan-out                               ; 2115      ;
+; Average fan-out                             ; 2.80      ;
 +---------------------------------------------+-----------+
 
 
@@ -252,8 +251,8 @@ agreement for further details.
 +---------------------------------------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+-------------------------------------------------------------------------------------------------------+------------------------+--------------+
 ; Compilation Hierarchy Node                              ; Combinational ALUTs ; Dedicated Logic Registers ; Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; Full Hierarchy Name                                                                                   ; Entity Name            ; Library Name ;
 +---------------------------------------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+-------------------------------------------------------------------------------------------------------+------------------------+--------------+
-; |final                                                  ; 411 (263)           ; 149 (98)                  ; 57600       ; 0            ; 0       ; 0         ; 75   ; 0            ; |final                                                                                                ; final                  ; work         ;
-;    |clock:comb_192|                                     ; 36 (36)             ; 21 (21)                   ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |final|clock:comb_192                                                                                 ; clock                  ; work         ;
+; |final                                                  ; 438 (290)           ; 157 (106)                 ; 57600       ; 0            ; 0       ; 0         ; 75   ; 0            ; |final                                                                                                ; final                  ; work         ;
+;    |clock:comb_202|                                     ; 36 (36)             ; 21 (21)                   ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |final|clock:comb_202                                                                                 ; clock                  ; work         ;
 ;    |seven_segment:left|                                 ; 7 (7)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |final|seven_segment:left                                                                             ; seven_segment          ; work         ;
 ;    |seven_segment:right|                                ; 7 (7)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |final|seven_segment:right                                                                            ; seven_segment          ; work         ;
 ;    |vga_adapter:VGA|                                    ; 98 (2)              ; 30 (0)                    ; 57600       ; 0            ; 0       ; 0         ; 0    ; 0            ; |final|vga_adapter:VGA                                                                                ; vga_adapter            ; work         ;
@@ -281,30 +280,31 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 
 
 Encoding Type:  One-Hot
-+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; State Machine - |final|S                                                                                                                                                                                                                                                                                         ;
-+--------------------+---------------+--------------+--------------------+-------------+-------------+---------------+--------------+-----------------+-------------------+------------------+---------------+-----------------+----------------+--------+-------------+-----------------+---------------+---------+
-; Name               ; S.SCORE_RIGHT ; S.SCORE_LEFT ; S.WAIT_FOR_PLAYERS ; S.GAME_OVER ; S.DRAW_BALL ; S.UPDATE_BALL ; S.ERASE_BALL ; S.DRAW_PADDLE_2 ; S.UPDATE_PADDLE_2 ; S.ERASE_PADDLE_2 ; S.DRAW_PADDLE ; S.UPDATE_PADDLE ; S.ERASE_PADDLE ; S.IDLE ; S.INIT_BALL ; S.INIT_PADDLE_2 ; S.INIT_PADDLE ; S.START ;
-+--------------------+---------------+--------------+--------------------+-------------+-------------+---------------+--------------+-----------------+-------------------+------------------+---------------+-----------------+----------------+--------+-------------+-----------------+---------------+---------+
-; S.START            ; 0             ; 0            ; 0                  ; 0           ; 0           ; 0             ; 0            ; 0               ; 0                 ; 0                ; 0             ; 0               ; 0              ; 0      ; 0           ; 0               ; 0             ; 0       ;
-; S.INIT_PADDLE      ; 0             ; 0            ; 0                  ; 0           ; 0           ; 0             ; 0            ; 0               ; 0                 ; 0                ; 0             ; 0               ; 0              ; 0      ; 0           ; 0               ; 1             ; 1       ;
-; S.INIT_PADDLE_2    ; 0             ; 0            ; 0                  ; 0           ; 0           ; 0             ; 0            ; 0               ; 0                 ; 0                ; 0             ; 0               ; 0              ; 0      ; 0           ; 1               ; 0             ; 1       ;
-; S.INIT_BALL        ; 0             ; 0            ; 0                  ; 0           ; 0           ; 0             ; 0            ; 0               ; 0                 ; 0                ; 0             ; 0               ; 0              ; 0      ; 1           ; 0               ; 0             ; 1       ;
-; S.IDLE             ; 0             ; 0            ; 0                  ; 0           ; 0           ; 0             ; 0            ; 0               ; 0                 ; 0                ; 0             ; 0               ; 0              ; 1      ; 0           ; 0               ; 0             ; 1       ;
-; S.ERASE_PADDLE     ; 0             ; 0            ; 0                  ; 0           ; 0           ; 0             ; 0            ; 0               ; 0                 ; 0                ; 0             ; 0               ; 1              ; 0      ; 0           ; 0               ; 0             ; 1       ;
-; S.UPDATE_PADDLE    ; 0             ; 0            ; 0                  ; 0           ; 0           ; 0             ; 0            ; 0               ; 0                 ; 0                ; 0             ; 1               ; 0              ; 0      ; 0           ; 0               ; 0             ; 1       ;
-; S.DRAW_PADDLE      ; 0             ; 0            ; 0                  ; 0           ; 0           ; 0             ; 0            ; 0               ; 0                 ; 0                ; 1             ; 0               ; 0              ; 0      ; 0           ; 0               ; 0             ; 1       ;
-; S.ERASE_PADDLE_2   ; 0             ; 0            ; 0                  ; 0           ; 0           ; 0             ; 0            ; 0               ; 0                 ; 1                ; 0             ; 0               ; 0              ; 0      ; 0           ; 0               ; 0             ; 1       ;
-; S.UPDATE_PADDLE_2  ; 0             ; 0            ; 0                  ; 0           ; 0           ; 0             ; 0            ; 0               ; 1                 ; 0                ; 0             ; 0               ; 0              ; 0      ; 0           ; 0               ; 0             ; 1       ;
-; S.DRAW_PADDLE_2    ; 0             ; 0            ; 0                  ; 0           ; 0           ; 0             ; 0            ; 1               ; 0                 ; 0                ; 0             ; 0               ; 0              ; 0      ; 0           ; 0               ; 0             ; 1       ;
-; S.ERASE_BALL       ; 0             ; 0            ; 0                  ; 0           ; 0           ; 0             ; 1            ; 0               ; 0                 ; 0                ; 0             ; 0               ; 0              ; 0      ; 0           ; 0               ; 0             ; 1       ;
-; S.UPDATE_BALL      ; 0             ; 0            ; 0                  ; 0           ; 0           ; 1             ; 0            ; 0               ; 0                 ; 0                ; 0             ; 0               ; 0              ; 0      ; 0           ; 0               ; 0             ; 1       ;
-; S.DRAW_BALL        ; 0             ; 0            ; 0                  ; 0           ; 1           ; 0             ; 0            ; 0               ; 0                 ; 0                ; 0             ; 0               ; 0              ; 0      ; 0           ; 0               ; 0             ; 1       ;
-; S.GAME_OVER        ; 0             ; 0            ; 0                  ; 1           ; 0           ; 0             ; 0            ; 0               ; 0                 ; 0                ; 0             ; 0               ; 0              ; 0      ; 0           ; 0               ; 0             ; 1       ;
-; S.WAIT_FOR_PLAYERS ; 0             ; 0            ; 1                  ; 0           ; 0           ; 0             ; 0            ; 0               ; 0                 ; 0                ; 0             ; 0               ; 0              ; 0      ; 0           ; 0               ; 0             ; 1       ;
-; S.SCORE_LEFT       ; 0             ; 1            ; 0                  ; 0           ; 0           ; 0             ; 0            ; 0               ; 0                 ; 0                ; 0             ; 0               ; 0              ; 0      ; 0           ; 0               ; 0             ; 1       ;
-; S.SCORE_RIGHT      ; 1             ; 0            ; 0                  ; 0           ; 0           ; 0             ; 0            ; 0               ; 0                 ; 0                ; 0             ; 0               ; 0              ; 0      ; 0           ; 0               ; 0             ; 1       ;
-+--------------------+---------------+--------------+--------------------+-------------+-------------+---------------+--------------+-----------------+-------------------+------------------+---------------+-----------------+----------------+--------+-------------+-----------------+---------------+---------+
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; State Machine - |final|S                                                                                                                                                                                                                                                                                                       ;
++--------------------+-------------+---------------+--------------+--------------------+-------------+-------------+---------------+--------------+-----------------+-------------------+------------------+---------------+-----------------+----------------+--------+-------------+-----------------+---------------+---------+
+; Name               ; S.INIT_LINE ; S.SCORE_RIGHT ; S.SCORE_LEFT ; S.WAIT_FOR_PLAYERS ; S.GAME_OVER ; S.DRAW_BALL ; S.UPDATE_BALL ; S.ERASE_BALL ; S.DRAW_PADDLE_2 ; S.UPDATE_PADDLE_2 ; S.ERASE_PADDLE_2 ; S.DRAW_PADDLE ; S.UPDATE_PADDLE ; S.ERASE_PADDLE ; S.IDLE ; S.INIT_BALL ; S.INIT_PADDLE_2 ; S.INIT_PADDLE ; S.START ;
++--------------------+-------------+---------------+--------------+--------------------+-------------+-------------+---------------+--------------+-----------------+-------------------+------------------+---------------+-----------------+----------------+--------+-------------+-----------------+---------------+---------+
+; S.START            ; 0           ; 0             ; 0            ; 0                  ; 0           ; 0           ; 0             ; 0            ; 0               ; 0                 ; 0                ; 0             ; 0               ; 0              ; 0      ; 0           ; 0               ; 0             ; 0       ;
+; S.INIT_PADDLE      ; 0           ; 0             ; 0            ; 0                  ; 0           ; 0           ; 0             ; 0            ; 0               ; 0                 ; 0                ; 0             ; 0               ; 0              ; 0      ; 0           ; 0               ; 1             ; 1       ;
+; S.INIT_PADDLE_2    ; 0           ; 0             ; 0            ; 0                  ; 0           ; 0           ; 0             ; 0            ; 0               ; 0                 ; 0                ; 0             ; 0               ; 0              ; 0      ; 0           ; 1               ; 0             ; 1       ;
+; S.INIT_BALL        ; 0           ; 0             ; 0            ; 0                  ; 0           ; 0           ; 0             ; 0            ; 0               ; 0                 ; 0                ; 0             ; 0               ; 0              ; 0      ; 1           ; 0               ; 0             ; 1       ;
+; S.IDLE             ; 0           ; 0             ; 0            ; 0                  ; 0           ; 0           ; 0             ; 0            ; 0               ; 0                 ; 0                ; 0             ; 0               ; 0              ; 1      ; 0           ; 0               ; 0             ; 1       ;
+; S.ERASE_PADDLE     ; 0           ; 0             ; 0            ; 0                  ; 0           ; 0           ; 0             ; 0            ; 0               ; 0                 ; 0                ; 0             ; 0               ; 1              ; 0      ; 0           ; 0               ; 0             ; 1       ;
+; S.UPDATE_PADDLE    ; 0           ; 0             ; 0            ; 0                  ; 0           ; 0           ; 0             ; 0            ; 0               ; 0                 ; 0                ; 0             ; 1               ; 0              ; 0      ; 0           ; 0               ; 0             ; 1       ;
+; S.DRAW_PADDLE      ; 0           ; 0             ; 0            ; 0                  ; 0           ; 0           ; 0             ; 0            ; 0               ; 0                 ; 0                ; 1             ; 0               ; 0              ; 0      ; 0           ; 0               ; 0             ; 1       ;
+; S.ERASE_PADDLE_2   ; 0           ; 0             ; 0            ; 0                  ; 0           ; 0           ; 0             ; 0            ; 0               ; 0                 ; 1                ; 0             ; 0               ; 0              ; 0      ; 0           ; 0               ; 0             ; 1       ;
+; S.UPDATE_PADDLE_2  ; 0           ; 0             ; 0            ; 0                  ; 0           ; 0           ; 0             ; 0            ; 0               ; 1                 ; 0                ; 0             ; 0               ; 0              ; 0      ; 0           ; 0               ; 0             ; 1       ;
+; S.DRAW_PADDLE_2    ; 0           ; 0             ; 0            ; 0                  ; 0           ; 0           ; 0             ; 0            ; 1               ; 0                 ; 0                ; 0             ; 0               ; 0              ; 0      ; 0           ; 0               ; 0             ; 1       ;
+; S.ERASE_BALL       ; 0           ; 0             ; 0            ; 0                  ; 0           ; 0           ; 0             ; 1            ; 0               ; 0                 ; 0                ; 0             ; 0               ; 0              ; 0      ; 0           ; 0               ; 0             ; 1       ;
+; S.UPDATE_BALL      ; 0           ; 0             ; 0            ; 0                  ; 0           ; 0           ; 1             ; 0            ; 0               ; 0                 ; 0                ; 0             ; 0               ; 0              ; 0      ; 0           ; 0               ; 0             ; 1       ;
+; S.DRAW_BALL        ; 0           ; 0             ; 0            ; 0                  ; 0           ; 1           ; 0             ; 0            ; 0               ; 0                 ; 0                ; 0             ; 0               ; 0              ; 0      ; 0           ; 0               ; 0             ; 1       ;
+; S.GAME_OVER        ; 0           ; 0             ; 0            ; 0                  ; 1           ; 0           ; 0             ; 0            ; 0               ; 0                 ; 0                ; 0             ; 0               ; 0              ; 0      ; 0           ; 0               ; 0             ; 1       ;
+; S.WAIT_FOR_PLAYERS ; 0           ; 0             ; 0            ; 1                  ; 0           ; 0           ; 0             ; 0            ; 0               ; 0                 ; 0                ; 0             ; 0               ; 0              ; 0      ; 0           ; 0               ; 0             ; 1       ;
+; S.SCORE_LEFT       ; 0           ; 0             ; 1            ; 0                  ; 0           ; 0           ; 0             ; 0            ; 0               ; 0                 ; 0                ; 0             ; 0               ; 0              ; 0      ; 0           ; 0               ; 0             ; 1       ;
+; S.SCORE_RIGHT      ; 0           ; 1             ; 0            ; 0                  ; 0           ; 0           ; 0             ; 0            ; 0               ; 0                 ; 0                ; 0             ; 0               ; 0              ; 0      ; 0           ; 0               ; 0             ; 1       ;
+; S.INIT_LINE        ; 1           ; 0             ; 0            ; 0                  ; 0           ; 0           ; 0             ; 0            ; 0               ; 0                 ; 0                ; 0             ; 0               ; 0              ; 0      ; 0           ; 0               ; 0             ; 1       ;
++--------------------+-------------+---------------+--------------+--------------------+-------------+-------------+---------------+--------------+-----------------+-------------------+------------------+---------------+-----------------+----------------+--------+-------------+-----------------+---------------+---------+
 
 
 +---------------------------------------------------------------------------------+
@@ -320,19 +320,20 @@ Encoding Type:  One-Hot
 ; pad2_y[0]                              ; Merged with pad2_x[0]                  ;
 ; pad2_x[2,4,7]                          ; Merged with pad2_x[1]                  ;
 ; pad_x[3]                               ; Merged with pad_x[1]                   ;
+; ball_x[1]                              ; Merged with ball_y[1]                  ;
 ; pad_x[0]                               ; Stuck at GND due to stuck port data_in ;
 ; pad2_x[1]                              ; Stuck at VCC due to stuck port data_in ;
 ; pad2_x[0]                              ; Stuck at GND due to stuck port data_in ;
 ; pad_x[1]                               ; Stuck at VCC due to stuck port data_in ;
 ; ball_x[0]                              ; Stuck at GND due to stuck port data_in ;
+; drawLine[0]                            ; Stuck at GND due to stuck port data_in ;
 ; S~2                                    ; Lost fanout                            ;
 ; S~3                                    ; Lost fanout                            ;
 ; S~4                                    ; Lost fanout                            ;
 ; S~5                                    ; Lost fanout                            ;
 ; S~6                                    ; Lost fanout                            ;
 ; S~7                                    ; Lost fanout                            ;
-; ball_y[1]                              ; Merged with ball_x[1]                  ;
-; Total Number of Removed Registers = 28 ;                                        ;
+; Total Number of Removed Registers = 29 ;                                        ;
 +----------------------------------------+----------------------------------------+
 
 
@@ -341,12 +342,12 @@ Encoding Type:  One-Hot
 +----------------------------------------------+-------+
 ; Statistic                                    ; Value ;
 +----------------------------------------------+-------+
-; Total registers                              ; 149   ;
-; Number of registers using Synchronous Clear  ; 15    ;
+; Total registers                              ; 157   ;
+; Number of registers using Synchronous Clear  ; 23    ;
 ; Number of registers using Synchronous Load   ; 27    ;
 ; Number of registers using Asynchronous Clear ; 0     ;
 ; Number of registers using Asynchronous Load  ; 0     ;
-; Number of registers using Clock Enable       ; 62    ;
+; Number of registers using Clock Enable       ; 69    ;
 ; Number of registers using Preset             ; 0     ;
 +----------------------------------------------+-------+
 
@@ -356,19 +357,21 @@ Encoding Type:  One-Hot
 +--------------------+-----------+---------------+----------------------+------------------------+------------+----------------------------------------------------------------------------------------------------------+
 ; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output                                                                               ;
 +--------------------+-----------+---------------+----------------------+------------------------+------------+----------------------------------------------------------------------------------------------------------+
-; 3:1                ; 10 bits   ; 20 LEs        ; 10 LEs               ; 10 LEs                 ; Yes        ; |final|vga_adapter:VGA|vga_controller:controller|yCounter[0]                                             ;
-; 3:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |final|left_score[2]                                                                                     ;
-; 3:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |final|right_score[0]                                                                                    ;
-; 5:1                ; 14 bits   ; 42 LEs        ; 14 LEs               ; 28 LEs                 ; Yes        ; |final|ball_x[4]                                                                                         ;
-; 5:1                ; 2 bits    ; 6 LEs         ; 0 LEs                ; 6 LEs                  ; Yes        ; |final|pad2_x[1]                                                                                         ;
+; 3:1                ; 10 bits   ; 20 LEs        ; 10 LEs               ; 10 LEs                 ; Yes        ; |final|vga_adapter:VGA|vga_controller:controller|yCounter[2]                                             ;
+; 3:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |final|left_score[1]                                                                                     ;
+; 3:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |final|right_score[2]                                                                                    ;
+; 4:1                ; 7 bits    ; 14 LEs        ; 7 LEs                ; 7 LEs                  ; Yes        ; |final|drawLine[5]                                                                                       ;
+; 5:1                ; 13 bits   ; 39 LEs        ; 13 LEs               ; 26 LEs                 ; Yes        ; |final|ball_y[6]                                                                                         ;
 ; 5:1                ; 2 bits    ; 6 LEs         ; 0 LEs                ; 6 LEs                  ; Yes        ; |final|pad_x[0]                                                                                          ;
-; 5:1                ; 18 bits   ; 54 LEs        ; 18 LEs               ; 36 LEs                 ; Yes        ; |final|drawBackgroundCounter[12]                                                                         ;
-; 7:1                ; 7 bits    ; 28 LEs        ; 7 LEs                ; 21 LEs                 ; Yes        ; |final|pad_y[1]                                                                                          ;
-; 7:1                ; 7 bits    ; 28 LEs        ; 7 LEs                ; 21 LEs                 ; Yes        ; |final|pad2_y[3]                                                                                         ;
-; 10:1               ; 8 bits    ; 48 LEs        ; 24 LEs               ; 24 LEs                 ; Yes        ; |final|x[7]                                                                                              ;
+; 5:1                ; 2 bits    ; 6 LEs         ; 0 LEs                ; 6 LEs                  ; Yes        ; |final|pad2_x[1]                                                                                         ;
+; 5:1                ; 18 bits   ; 54 LEs        ; 18 LEs               ; 36 LEs                 ; Yes        ; |final|drawBackgroundCounter[7]                                                                          ;
+; 7:1                ; 7 bits    ; 28 LEs        ; 7 LEs                ; 21 LEs                 ; Yes        ; |final|pad_y[2]                                                                                          ;
+; 7:1                ; 7 bits    ; 28 LEs        ; 7 LEs                ; 21 LEs                 ; Yes        ; |final|pad2_y[1]                                                                                         ;
+; 10:1               ; 6 bits    ; 36 LEs        ; 18 LEs               ; 18 LEs                 ; Yes        ; |final|x[1]                                                                                              ;
 ; 5:1                ; 8 bits    ; 24 LEs        ; 8 LEs                ; 16 LEs                 ; Yes        ; |final|yPaddleCounter[2]                                                                                 ;
-; 8:1                ; 7 bits    ; 35 LEs        ; 21 LEs               ; 14 LEs                 ; Yes        ; |final|y[1]                                                                                              ;
-; 3:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; No         ; |final|vga_adapter:VGA|altsyncram:VideoMemory|altsyncram_60g1:auto_generated|mux_0nb:mux3|result_node[1] ;
+; 11:1               ; 2 bits    ; 14 LEs        ; 8 LEs                ; 6 LEs                  ; Yes        ; |final|x[6]                                                                                              ;
+; 10:1               ; 6 bits    ; 36 LEs        ; 24 LEs               ; 12 LEs                 ; Yes        ; |final|y[1]                                                                                              ;
+; 3:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; No         ; |final|vga_adapter:VGA|altsyncram:VideoMemory|altsyncram_60g1:auto_generated|mux_0nb:mux3|result_node[2] ;
 ; 3:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |final|S                                                                                                 ;
 ; 4:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; No         ; |final|S                                                                                                 ;
 +--------------------+-----------+---------------+----------------------+------------------------+------------+----------------------------------------------------------------------------------------------------------+
@@ -385,32 +388,34 @@ Encoding Type:  One-Hot
 
 +-----------------------------------------------------------------------+
 ; Parameter Settings for User Entity Instance: Top-level Entity: |final ;
-+------------------+--------+-------------------------------------------+
-; Parameter Name   ; Value  ; Type                                      ;
-+------------------+--------+-------------------------------------------+
-; START            ; 000000 ; Unsigned Binary                           ;
-; INIT_PADDLE      ; 000001 ; Unsigned Binary                           ;
-; INIT_PADDLE_2    ; 000010 ; Unsigned Binary                           ;
-; INIT_BALL        ; 000011 ; Unsigned Binary                           ;
-; IDLE             ; 000100 ; Unsigned Binary                           ;
-; ERASE_PADDLE     ; 000101 ; Unsigned Binary                           ;
-; UPDATE_PADDLE    ; 000110 ; Unsigned Binary                           ;
-; DRAW_PADDLE      ; 000111 ; Unsigned Binary                           ;
-; ERASE_PADDLE_2   ; 001000 ; Unsigned Binary                           ;
-; UPDATE_PADDLE_2  ; 001001 ; Unsigned Binary                           ;
-; DRAW_PADDLE_2    ; 001010 ; Unsigned Binary                           ;
-; ERASE_BALL       ; 001011 ; Unsigned Binary                           ;
-; UPDATE_BALL      ; 001100 ; Unsigned Binary                           ;
-; DRAW_BALL        ; 001101 ; Unsigned Binary                           ;
-; GAME_WON         ; 001110 ; Unsigned Binary                           ;
-; GAME_OVER        ; 001111 ; Unsigned Binary                           ;
-; WAIT_FOR_PLAYERS ; 010001 ; Unsigned Binary                           ;
-; WIN_LEFT         ; 010010 ; Unsigned Binary                           ;
-; WIN_RIGHT        ; 010011 ; Unsigned Binary                           ;
-; SCORE_LEFT       ; 010100 ; Unsigned Binary                           ;
-; SCORE_RIGHT      ; 010101 ; Unsigned Binary                           ;
-; ERROR            ; 001111 ; Unsigned Binary                           ;
-+------------------+--------+-------------------------------------------+
++------------------+----------+-----------------------------------------+
+; Parameter Name   ; Value    ; Type                                    ;
++------------------+----------+-----------------------------------------+
+; START            ; 000000   ; Unsigned Binary                         ;
+; INIT_LINE        ; 010110   ; Unsigned Binary                         ;
+; INIT_PADDLE      ; 000001   ; Unsigned Binary                         ;
+; INIT_PADDLE_2    ; 000010   ; Unsigned Binary                         ;
+; INIT_BALL        ; 000011   ; Unsigned Binary                         ;
+; IDLE             ; 000100   ; Unsigned Binary                         ;
+; ERASE_PADDLE     ; 000101   ; Unsigned Binary                         ;
+; UPDATE_PADDLE    ; 000110   ; Unsigned Binary                         ;
+; DRAW_PADDLE      ; 000111   ; Unsigned Binary                         ;
+; ERASE_PADDLE_2   ; 001000   ; Unsigned Binary                         ;
+; UPDATE_PADDLE_2  ; 001001   ; Unsigned Binary                         ;
+; DRAW_PADDLE_2    ; 001010   ; Unsigned Binary                         ;
+; ERASE_BALL       ; 001011   ; Unsigned Binary                         ;
+; UPDATE_BALL      ; 001100   ; Unsigned Binary                         ;
+; DRAW_BALL        ; 001101   ; Unsigned Binary                         ;
+; GAME_WON         ; 001110   ; Unsigned Binary                         ;
+; GAME_OVER        ; 001111   ; Unsigned Binary                         ;
+; WAIT_FOR_PLAYERS ; 010001   ; Unsigned Binary                         ;
+; WIN_LEFT         ; 010010   ; Unsigned Binary                         ;
+; WIN_RIGHT        ; 010011   ; Unsigned Binary                         ;
+; SCORE_LEFT       ; 010100   ; Unsigned Binary                         ;
+; SCORE_RIGHT      ; 010101   ; Unsigned Binary                         ;
+; MAX_HEIGHT       ; 01111000 ; Unsigned Binary                         ;
+; ERROR            ; 001111   ; Unsigned Binary                         ;
++------------------+----------+-----------------------------------------+
 Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
 
 
@@ -956,27 +961,27 @@ Note: In order to hide this table in the UI and the text report file, please set
 ; Type                  ; Count                       ;
 +-----------------------+-----------------------------+
 ; boundary_port         ; 75                          ;
-; cycloneiii_ff         ; 149                         ;
+; cycloneiii_ff         ; 157                         ;
 ;     ENA               ; 27                          ;
-;     ENA SCLR          ; 8                           ;
+;     ENA SCLR          ; 15                          ;
 ;     ENA SLD           ; 27                          ;
-;     SCLR              ; 7                           ;
+;     SCLR              ; 8                           ;
 ;     plain             ; 80                          ;
-; cycloneiii_lcell_comb ; 417                         ;
-;     arith             ; 163                         ;
-;         2 data inputs ; 97                          ;
-;         3 data inputs ; 66                          ;
-;     normal            ; 254                         ;
+; cycloneiii_lcell_comb ; 444                         ;
+;     arith             ; 169                         ;
+;         2 data inputs ; 102                         ;
+;         3 data inputs ; 67                          ;
+;     normal            ; 275                         ;
 ;         0 data inputs ; 4                           ;
-;         1 data inputs ; 16                          ;
-;         2 data inputs ; 37                          ;
-;         3 data inputs ; 53                          ;
-;         4 data inputs ; 144                         ;
+;         1 data inputs ; 17                          ;
+;         2 data inputs ; 62                          ;
+;         3 data inputs ; 45                          ;
+;         4 data inputs ; 147                         ;
 ; cycloneiii_pll        ; 1                           ;
 ; cycloneiii_ram_block  ; 9                           ;
 ;                       ;                             ;
 ; Max LUT depth         ; 5.00                        ;
-; Average LUT depth     ; 3.10                        ;
+; Average LUT depth     ; 3.12                        ;
 +-----------------------+-----------------------------+
 
 
@@ -995,7 +1000,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 16.1.0 Build 196 10/24/2016 SJ Lite Edition
-    Info: Processing started: Thu Dec 01 11:56:16 2022
+    Info: Processing started: Thu Dec 01 12:34:11 2022
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off final -c final
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
 Info (20030): Parallel compilation is enabled and will use 4 of the 4 processors detected
@@ -1013,16 +1018,16 @@ Info (12021): Found 1 design units, including 1 entities, in source file vga_ada
 Warning (10463): Verilog HDL Declaration warning at final.v(1): "final" is SystemVerilog-2005 keyword File: C:/Users/salinaj2/Downloads/Verilog_Pong/final.v Line: 1
 Warning (12125): Using design file final.v, which is not specified as a design file for the current project, but contains definitions for 2 design units and 2 entities in project
     Info (12023): Found entity 1: final File: C:/Users/salinaj2/Downloads/Verilog_Pong/final.v Line: 1
-    Info (12023): Found entity 2: clock File: C:/Users/salinaj2/Downloads/Verilog_Pong/final.v Line: 418
-Critical Warning (10846): Verilog HDL Instantiation warning at final.v(197): instance has no name File: C:/Users/salinaj2/Downloads/Verilog_Pong/final.v Line: 197
+    Info (12023): Found entity 2: clock File: C:/Users/salinaj2/Downloads/Verilog_Pong/final.v Line: 437
+Critical Warning (10846): Verilog HDL Instantiation warning at final.v(206): instance has no name File: C:/Users/salinaj2/Downloads/Verilog_Pong/final.v Line: 206
 Info (12127): Elaborating entity "final" for the top level hierarchy
 Warning (10036): Verilog HDL or VHDL warning at final.v(43): object "border_init" assigned a value but never read File: C:/Users/salinaj2/Downloads/Verilog_Pong/final.v Line: 43
 Warning (10036): Verilog HDL or VHDL warning at final.v(44): object "paddle_init" assigned a value but never read File: C:/Users/salinaj2/Downloads/Verilog_Pong/final.v Line: 44
 Warning (10036): Verilog HDL or VHDL warning at final.v(45): object "ball_init" assigned a value but never read File: C:/Users/salinaj2/Downloads/Verilog_Pong/final.v Line: 45
 Warning (10036): Verilog HDL or VHDL warning at final.v(46): object "brick_init" assigned a value but never read File: C:/Users/salinaj2/Downloads/Verilog_Pong/final.v Line: 46
-Warning (10230): Verilog HDL assignment warning at final.v(225): truncated value with size 9 to match size of target (8) File: C:/Users/salinaj2/Downloads/Verilog_Pong/final.v Line: 225
-Warning (10230): Verilog HDL assignment warning at final.v(406): truncated value with size 9 to match size of target (8) File: C:/Users/salinaj2/Downloads/Verilog_Pong/final.v Line: 406
-Info (10264): Verilog HDL Case Statement information at final.v(218): all case item expressions in this case statement are onehot File: C:/Users/salinaj2/Downloads/Verilog_Pong/final.v Line: 218
+Warning (10230): Verilog HDL assignment warning at final.v(234): truncated value with size 9 to match size of target (8) File: C:/Users/salinaj2/Downloads/Verilog_Pong/final.v Line: 234
+Warning (10230): Verilog HDL assignment warning at final.v(425): truncated value with size 9 to match size of target (8) File: C:/Users/salinaj2/Downloads/Verilog_Pong/final.v Line: 425
+Info (10264): Verilog HDL Case Statement information at final.v(227): all case item expressions in this case statement are onehot File: C:/Users/salinaj2/Downloads/Verilog_Pong/final.v Line: 227
 Warning (10034): Output port "led[17..6]" at final.v(8) has no driver File: C:/Users/salinaj2/Downloads/Verilog_Pong/final.v Line: 8
 Info (12128): Elaborating entity "vga_adapter" for hierarchy "vga_adapter:VGA" File: C:/Users/salinaj2/Downloads/Verilog_Pong/final.v Line: 35
 Info (12128): Elaborating entity "vga_address_translator" for hierarchy "vga_adapter:VGA|vga_address_translator:user_input_translator" File: C:/Users/salinaj2/Downloads/Verilog_Pong/vga_adapter/vga_adapter.v Line: 192
@@ -1073,7 +1078,7 @@ Info (12133): Instantiated megafunction "vga_adapter:VGA|vga_pll:mypll|altpll:al
     Info (12134): Parameter "clk0_duty_cycle" = "50"
 Info (12128): Elaborating entity "vga_controller" for hierarchy "vga_adapter:VGA|vga_controller:controller" File: C:/Users/salinaj2/Downloads/Verilog_Pong/vga_adapter/vga_adapter.v Line: 252
 Info (12128): Elaborating entity "seven_segment" for hierarchy "seven_segment:left" File: C:/Users/salinaj2/Downloads/Verilog_Pong/final.v Line: 63
-Info (12128): Elaborating entity "clock" for hierarchy "clock:comb_192" File: C:/Users/salinaj2/Downloads/Verilog_Pong/final.v Line: 197
+Info (12128): Elaborating entity "clock" for hierarchy "clock:comb_202" File: C:/Users/salinaj2/Downloads/Verilog_Pong/final.v Line: 206
 Warning (12241): 1 hierarchies have connectivity warnings - see the Connectivity Checks report folder
 Warning (13024): Output pins are stuck at VCC or GND
     Warning (13410): Pin "led[5]" is stuck at GND File: C:/Users/salinaj2/Downloads/Verilog_Pong/final.v Line: 8
@@ -1098,17 +1103,17 @@ Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
 Warning (21074): Design contains 2 input pin(s) that do not drive logic
     Warning (15610): No output dependent on input pin "button[0]" File: C:/Users/salinaj2/Downloads/Verilog_Pong/final.v Line: 6
     Warning (15610): No output dependent on input pin "button2[0]" File: C:/Users/salinaj2/Downloads/Verilog_Pong/final.v Line: 7
-Info (21057): Implemented 505 device resources after synthesis - the final resource count might be different
+Info (21057): Implemented 533 device resources after synthesis - the final resource count might be different
     Info (21058): Implemented 8 input pins
     Info (21059): Implemented 67 output pins
-    Info (21061): Implemented 420 logic cells
+    Info (21061): Implemented 448 logic cells
     Info (21064): Implemented 9 RAM segments
     Info (21065): Implemented 1 PLLs
 Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 31 warnings
-    Info: Peak virtual memory: 4780 megabytes
-    Info: Processing ended: Thu Dec 01 11:56:26 2022
+    Info: Peak virtual memory: 4784 megabytes
+    Info: Processing ended: Thu Dec 01 12:34:21 2022
     Info: Elapsed time: 00:00:10
-    Info: Total CPU time (on all processors): 00:00:22
+    Info: Total CPU time (on all processors): 00:00:19
 
 
 +------------------------------------------+
