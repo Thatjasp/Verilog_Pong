@@ -51,6 +51,8 @@ reg [7:0]ball_x, ball_y;
 reg [2:0]colour;
 reg ball_xdir, ball_ydir;
 reg [17:0]draw;
+reg [17:0] drawBackgroundCounter;
+reg [7:0] yPaddleCounter;
 wire frame;
 
 reg [3:0] left_score;
@@ -98,21 +100,21 @@ begin
 		case (S)
 			START:
 			begin
-				if (draw < 17'b10000000000000000)
+				if (drawBackgroundCounter < 17'b10000000000000000)
 					NS = START;
 				else
 					NS =  INIT_PADDLE;
 			end
 			INIT_PADDLE:
 			begin
-				if (draw < 6'b10000)
+				if (yPaddleCounter < 5'b10000)
 					NS = INIT_PADDLE;
 				else
 					NS = INIT_PADDLE_2;
 			end
 			INIT_PADDLE_2:
 			begin
-				if (draw < 6'b10000)
+				if (yPaddleCounter < 5'b10000)
 					NS = INIT_PADDLE_2;
 				else
 					NS = INIT_BALL;
@@ -134,7 +136,7 @@ begin
 			end
 			ERASE_PADDLE:
 			begin
-				if (draw < 6'b100000)
+				if (yPaddleCounter < 5'b10000)
 					NS = ERASE_PADDLE;
 				else
 					NS = UPDATE_PADDLE;
@@ -142,14 +144,14 @@ begin
 			UPDATE_PADDLE: NS = DRAW_PADDLE;
 			DRAW_PADDLE: 
 			begin
-				if (draw < 6'b100000 )
+				if (yPaddleCounter < 5'b10000 )
 					NS = DRAW_PADDLE;
 				else 
 					NS = ERASE_PADDLE_2;
 			end
 			ERASE_PADDLE_2:
 			begin
-				if (draw < 6'b100000)
+				if (yPaddleCounter < 5'b10000)
 					NS = ERASE_PADDLE_2;
 				else
 					NS = UPDATE_PADDLE_2;
@@ -157,7 +159,7 @@ begin
 			UPDATE_PADDLE_2: NS = DRAW_PADDLE_2;
 			DRAW_PADDLE_2: 
 			begin
-				if (draw < 6'b100000 )
+				if ( yPaddleCounter < 5'b10000 )
 					NS = DRAW_PADDLE_2;
 				else 
 					NS = ERASE_BALL;
@@ -203,58 +205,69 @@ begin
 	ball_init <= 1'b0;
 	brick_init <= 1'b0;
 	colour <= 3'b000; // Background color
-	x <= 8'b00000000;
-	y <= 8'b00000000;
+	x <= 8'd0;
+	y <= 8'd0;
+	
 	if (~rst) begin
 		left_score <= 4'd0;
 		right_score <= 4'd0;
+		drawBackgroundCounter <= 17'd0;
+		yPaddleCounter <= 8'd0;
+		
 	end
 	case (S)
 	
 		START: 
 		begin
-			if (draw < 17'b10000000000000000)
+			if (drawBackgroundCounter < 17'b10000000000000000)
 			begin
-				x <= draw[7:0];
-				y <= draw[16:8];
-				draw <= draw + 1'b1;
+				x <= drawBackgroundCounter[7:0];
+				y <= drawBackgroundCounter[16:8];
+				drawBackgroundCounter <= drawBackgroundCounter + 1'b1;
 			end 
 			else 
 			begin
-				draw <= 8'b00000000;
+				drawBackgroundCounter <= 17'd0;
+				yPaddleCounter <= 8'd0;
+				pad2_x <= 8'd150;		//Placement of paddle
+				pad2_y <= 8'd52; 	// Placement of paddle
+				pad_x <= 8'd10;		//Placement of paddle
+				pad_y <= 8'd52; 	// Placement of paddle
+				ball_x <= 8'd80;	// Placement of ball
+				ball_y <= 8'd60; 	// Placement of ball
 			end
 		end
 		
 		INIT_PADDLE: 
 		begin
-			if (draw < 6'b10000)
+			if (yPaddleCounter < 5'b10000)
 			begin
 				pad_x <= 8'd10;		//Placement of paddle
 				pad_y <= 8'd52; 	// Placement of paddle
 				x <= pad_x;		//size of paddle (x)
-				y <= pad_y + draw[3:0];	//size of paddle (y)
-				draw <= draw + 1'b1;
-				colour <= 3'b000;
+				y <= pad_y + yPaddleCounter[3:0];	//size of paddle (y)
+				yPaddleCounter <= yPaddleCounter + 1'b1;
+				colour <= 3'b111;
 			end 
 			else 
 			begin
-				draw <= 8'b00000000;
+				yPaddleCounter <= 8'd0;
 			end
 		end
 		INIT_PADDLE_2: 
 		begin
-			if (draw < 6'b10000)
+			if ( yPaddleCounter < 5'b10000)
 			begin
 				pad2_x <= 8'd150;		//Placement of paddle
 				pad2_y <= 8'd52; 	// Placement of paddle
 				x <= pad2_x;		//size of paddle (x)
-				y <= pad2_y + draw[3:0];	//size of paddle (y)
-				draw <= draw + 1'b1;
-				colour <= 3'b000;
+				y <= pad2_y + yPaddleCounter[3:0];	//size of paddle (y)
+				yPaddleCounter <= yPaddleCounter + 1'b1;
+				colour <= 3'b111;
 			end 
 			else 
 			begin
-				draw <= 8'b00000000;
+				yPaddleCounter <= 8'b00000000;
 			end
 		end
 		
@@ -264,56 +277,56 @@ begin
 			ball_y <= 8'd60; 	// Placement of ball
 			x <= ball_x;
 			y <= ball_y;
-			colour <= 3'b000;
+			colour <= 3'b100;
 		end	
 	
 		ERASE_PADDLE:
 		begin
-			if (draw < 6'b100000) 
+			if ( yPaddleCounter < 5'b10000 ) 
 			begin
-				x <= pad_x + draw[7]; // Same as init_paddle
-				y <= pad_y + draw[3:0];
-				draw <= draw + 1'b1;
+				x <= pad_x; // Same as init_paddle
+				y <= pad_y + yPaddleCounter[3:0];
+				yPaddleCounter <= yPaddleCounter + 1'b1;
 			end 
 			else 
 			begin
-				draw <= 8'b00000000;
+				yPaddleCounter <= 8'b00000000;
 			end
 		end
 
 		UPDATE_PADDLE: 
 		begin
-			if (~button[1] && pad_y < -8'd152) pad_y = pad_y + 2'd2; // Moves paddle up (Chnages lower bound)
-			if (~button[2] && pad_y > 8'd0) pad_y = pad_y - 2'd2; // Moves paddle down (Changes upper bound)							
+			if (~button[1] && pad_y < -8'd152) pad_y <= pad_y + 2'd2; // Moves paddle up (Chnages lower bound)
+			if (~button[2] && pad_y > 8'd0) pad_y <= pad_y - 2'd2; // Moves paddle down (Changes upper bound)							
 		end
 		
 		DRAW_PADDLE: 
 		begin
-			if (draw < 6'b100000) 
+			if (yPaddleCounter < 5'b10000) 
 			begin
 				x <= pad_x;
-				y <= pad_y + draw[3:0];
-				draw <= draw + 1'b1;
+				y <= pad_y + yPaddleCounter[3:0];
+				yPaddleCounter<= yPaddleCounter + 1'b1;
 				colour <= 3'b111;
 			end 
 			else 
 			begin
-				draw <= 8'b00000000;
+				yPaddleCounter <= 8'd0;
 			end
 		end
 		
 			
 		ERASE_PADDLE_2:
 		begin
-			if (draw < 6'b100000) 
+			if (yPaddleCounter < 5'b10000) 
 			begin
-				x <= pad2_x + draw[7]; // Same as init_paddle
-				y <= pad2_y + draw[3:0];
-				draw <= draw + 1'b1;
+				x <= pad2_x;// Same as init_paddle
+				y <= pad2_y + yPaddleCounter[3:0];
+				yPaddleCounter <= yPaddleCounter + 1'b1;
 			end 
 			else 
 			begin
-				draw <= 8'b00000000;
+				yPaddleCounter <= 8'b00000000;
 			end
 		end
 
@@ -327,16 +340,16 @@ begin
 		
 		DRAW_PADDLE_2: 
 		begin
-			if (draw < 6'b100000) 
+			if (yPaddleCounter < 5'b10000) 
 			begin
 				x <= pad2_x;
-				y <= pad2_y + draw[3:0];
-				draw <= draw + 1'b1;
+				y <= pad2_y + yPaddleCounter[3:0];
+				yPaddleCounter <= yPaddleCounter + 1'b1;
 				colour <= 3'b111;
 			end 
 			else 
 			begin
-				draw <= 8'b00000000;
+				yPaddleCounter <= 8'b00000000;
 			end
 		end
 		
@@ -344,6 +357,7 @@ begin
 		begin
 			x <= ball_x;
 			y <= ball_y;
+			colour <= 3'b000;
 		end
 		
 		UPDATE_BALL: 
@@ -386,11 +400,11 @@ begin
 		
 		GAME_OVER: 
 		begin
-			if (draw < 17'b10000000000000000)
+			if (drawBackgroundCounter < 17'b10000000000000000)
 			begin
-				x <= draw[7:0];
-				y <= draw[16:8];
-				draw <= draw + 1'b1;
+				x <= drawBackgroundCounter [7:0];
+				y <= drawBackgroundCounter [16:8];
+				drawBackgroundCounter <= drawBackgroundCounter + 1'b1;
 				colour <= 3'b100;
 			end
 		end
