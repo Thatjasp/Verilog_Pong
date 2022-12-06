@@ -60,6 +60,7 @@ reg [4:0] paddle2_size;
 reg [3:0] left_score;
 reg [3:0] right_score;
 reg [1:0] ball_speed;
+reg [2:0] ball_colour;
 
 assign led[5:0] = S; //displaying what state we are in
 
@@ -123,14 +124,14 @@ begin
 			end
 			INIT_PADDLE:
 			begin
-				if (yPaddleCounter < 5'b10000)
+				if (yPaddleCounter < paddle1_size)
 					NS = INIT_PADDLE;
 				else
 					NS = INIT_PADDLE_2;
 			end
 			INIT_PADDLE_2:
 			begin
-				if (yPaddleCounter < 5'b10000)
+				if (yPaddleCounter < paddle2_size)
 					NS = INIT_PADDLE_2;
 				else
 					NS = INIT_BALL;
@@ -152,7 +153,7 @@ begin
 			end
 			ERASE_PADDLE:
 			begin
-				if (yPaddleCounter < 5'b10000)
+				if (yPaddleCounter < paddle1_size)
 					NS = ERASE_PADDLE;
 				else
 					NS = UPDATE_PADDLE;
@@ -160,14 +161,14 @@ begin
 			UPDATE_PADDLE: NS = DRAW_PADDLE;
 			DRAW_PADDLE: 
 			begin
-				if (yPaddleCounter < 5'b10000 )
+				if (yPaddleCounter < paddle1_size )
 					NS = DRAW_PADDLE;
 				else 
 					NS = ERASE_PADDLE_2;
 			end
 			ERASE_PADDLE_2:
 			begin
-				if (yPaddleCounter < 5'b10000)
+				if (yPaddleCounter < paddle2_size)
 					NS = ERASE_PADDLE_2;
 				else
 					NS = UPDATE_PADDLE_2;
@@ -175,7 +176,7 @@ begin
 			UPDATE_PADDLE_2: NS = DRAW_PADDLE_2;
 			DRAW_PADDLE_2: 
 			begin
-				if ( yPaddleCounter < 5'b10000 )
+				if ( yPaddleCounter < paddle2_size )
 					NS = DRAW_PADDLE_2;
 				else 
 					NS = ERASE_BALL;
@@ -226,7 +227,7 @@ begin
 	colour <= 3'b000; // Background color
 	x <= 8'd0;
 	y <= 8'd0;
-	ball_speed <= 2'd1;
+	
 	
 	if (~rst) begin
 		left_score <= 4'd0;
@@ -236,6 +237,8 @@ begin
 		drawLine <= 8'd0;
 		paddle1_size <= 5'd16;
 		paddle2_size <= 5'd16;
+		ball_speed <= 2'd1;
+		ball_colour <= 3'b100;
 	end
 	case (S)
 		START: 
@@ -308,7 +311,7 @@ begin
 			ball_y <= 8'd60; 	// Placement of ball
 			x <= ball_x;
 			y <= ball_y;
-			colour <= 3'b100;
+			colour <= ball_colour;
 		end	
 	
 		ERASE_PADDLE:
@@ -327,7 +330,7 @@ begin
 
 		UPDATE_PADDLE: 
 		begin
-			if (~button[1] && pad_y < -8'd152) pad_y <= pad_y + 2'd2; // Moves paddle up (Chnages lower bound)
+			if (~button[1] && pad_y < (8'd120 - paddle1_size) ) pad_y <= pad_y + 2'd2; // Moves paddle up (Chnages lower bound)
 			if (~button[2] && pad_y > 8'd0) pad_y <= pad_y - 2'd2; // Moves paddle down (Changes upper bound)							
 		end
 		
@@ -363,7 +366,7 @@ begin
 
 		UPDATE_PADDLE_2: 
 		begin
-			if (~button2[1] && pad2_y < -8'd152) 
+			if (~button2[1] && pad2_y < (8'd120 - paddle2_size)) 
 				pad2_y <= pad2_y + 2'd2; // Moves paddle up (Chnages lower bound)
 			if (~button2[2] && pad2_y > 8'd0) 
 				pad2_y <= pad2_y - 2'd2; // Moves paddle down (Changes upper bound)							
@@ -421,19 +424,32 @@ begin
 			end
 		SCORE_LEFT: 
 		begin
+		if ( (right_score + left_score) >= 8'd3 )
+		begin 
+			ball_speed <= 2'd2;
+			ball_colour <= 3'b110;
+		end
 		left_score <= left_score + 4'd1;
+		paddle2_size <= paddle2_size - 8'd2;
 		end
 
 
 		SCORE_RIGHT: 
 		begin
+		if ( (right_score + left_score) >= 8'd3 )
+		begin
+			ball_speed <= 2'd2;
+			ball_colour <= 3'b110;
+		end
 		right_score <= right_score + 4'd1;
+		paddle1_size <= paddle1_size - 8'd2;
+		
 		end 
 		DRAW_BALL:
 		begin
 			x <= ball_x;
 			y <= ball_y;
-			colour <= 3'b100;
+			colour <= ball_colour;
 		end
 		
 		// when ball contacts the brick changes x direction same for update brick 1-5

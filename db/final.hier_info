@@ -42,6 +42,23 @@ rst => drawLine.OUTPUTSELECT
 rst => drawLine.OUTPUTSELECT
 rst => drawLine.OUTPUTSELECT
 rst => drawLine.OUTPUTSELECT
+rst => paddle1_size.OUTPUTSELECT
+rst => paddle1_size.OUTPUTSELECT
+rst => paddle1_size.OUTPUTSELECT
+rst => paddle1_size.OUTPUTSELECT
+rst => paddle1_size.OUTPUTSELECT
+rst => paddle2_size.OUTPUTSELECT
+rst => paddle2_size.OUTPUTSELECT
+rst => paddle2_size.OUTPUTSELECT
+rst => paddle2_size.OUTPUTSELECT
+rst => paddle2_size.OUTPUTSELECT
+rst => ball_speed.OUTPUTSELECT
+rst => ball_speed.OUTPUTSELECT
+rst => ball_colour.OUTPUTSELECT
+rst => ball_colour.OUTPUTSELECT
+rst => ball_colour.OUTPUTSELECT
+rst => S.OUTPUTSELECT
+rst => S.OUTPUTSELECT
 rst => S.OUTPUTSELECT
 rst => S.OUTPUTSELECT
 rst => S.OUTPUTSELECT
@@ -915,7 +932,7 @@ o[5] <= WideOr1.DB_MAX_OUTPUT_PORT_TYPE
 o[6] <= WideOr0.DB_MAX_OUTPUT_PORT_TYPE
 
 
-|final|clock:comb_202
+|final|clock:comb_216
 clock => frame.CLK
 clock => frame_counter[0].CLK
 clock => frame_counter[1].CLK
