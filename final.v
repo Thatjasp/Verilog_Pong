@@ -55,10 +55,15 @@ reg [17:0] drawBackgroundCounter;
 reg [7:0] yPaddleCounter;
 wire frame;
 
+reg [4:0] paddle1_size; 
+reg [4:0] paddle2_size; 
 reg [3:0] left_score;
 reg [3:0] right_score;
+reg [1:0] ball_speed;
 
 assign led[5:0] = S; //displaying what state we are in
+
+
 
 seven_segment left(left_score, HEX0);
 seven_segment right(right_score, HEX2);
@@ -85,6 +90,8 @@ parameter
 	WIN_RIGHT		= 6'd19,
 	SCORE_LEFT		= 6'd20,
 	SCORE_RIGHT		= 6'd21,
+	LEFT_WIN			= 6'd23,
+	RIGHT_WIN		= 6'd24,
 	MAX_HEIGHT		= 8'd120,
 	ERROR 			= 6'hF;
 
@@ -189,16 +196,19 @@ begin
 				if ( left_score < 3)
 					NS = START;
 				else
-					NS = GAME_OVER;
+					NS = LEFT_WIN;
 			end
 			SCORE_RIGHT: 
 			begin
 				if ( right_score < 3)
 					NS = START;
 				else
-					NS = GAME_OVER;
+					NS = RIGHT_WIN;
 			end
+			LEFT_WIN: NS = LEFT_WIN;
+			RIGHT_WIN: NS = RIGHT_WIN;
 			GAME_OVER: NS = GAME_OVER;
+			default: NS = ERROR;
 	endcase
 end
 	
@@ -216,6 +226,7 @@ begin
 	colour <= 3'b000; // Background color
 	x <= 8'd0;
 	y <= 8'd0;
+	ball_speed <= 2'd1;
 	
 	if (~rst) begin
 		left_score <= 4'd0;
@@ -223,9 +234,10 @@ begin
 		drawBackgroundCounter <= 17'd0;
 		yPaddleCounter <= 8'd0;
 		drawLine <= 8'd0;
+		paddle1_size <= 5'd16;
+		paddle2_size <= 5'd16;
 	end
 	case (S)
-	
 		START: 
 		begin
 			if (drawBackgroundCounter < 17'b10000000000000000)
@@ -251,7 +263,7 @@ begin
 		if (drawLine < MAX_HEIGHT) begin
 			x <= 8'd80;
 			y <= drawLine;
-			drawLine <= drawLine + 8'd2;
+			drawLine <= drawLine + 8'd3;
 			colour <= 3'b111;
 		end
 		else 
@@ -259,7 +271,7 @@ begin
 		end
 		INIT_PADDLE: 
 		begin
-			if (yPaddleCounter < 5'b10000)
+			if (yPaddleCounter < paddle1_size)
 			begin
 				pad_x <= 8'd10;		//Placement of paddle
 				pad_y <= 8'd52; 	// Placement of paddle
@@ -275,7 +287,7 @@ begin
 		end
 		INIT_PADDLE_2: 
 		begin
-			if ( yPaddleCounter < 5'b10000)
+			if ( yPaddleCounter < paddle2_size)
 			begin
 				pad2_x <= 8'd150;		//Placement of paddle
 				pad2_y <= 8'd52; 	// Placement of paddle
@@ -301,7 +313,7 @@ begin
 	
 		ERASE_PADDLE:
 		begin
-			if ( yPaddleCounter < 5'b10000 ) 
+			if ( yPaddleCounter < paddle1_size ) 
 			begin
 				x <= pad_x; // Same as init_paddle
 				y <= pad_y + yPaddleCounter[3:0];
@@ -321,7 +333,7 @@ begin
 		
 		DRAW_PADDLE: 
 		begin
-			if (yPaddleCounter < 5'b10000) 
+			if (yPaddleCounter < paddle1_size) 
 			begin
 				x <= pad_x;
 				y <= pad_y + yPaddleCounter[3:0];
@@ -337,7 +349,7 @@ begin
 			
 		ERASE_PADDLE_2:
 		begin
-			if (yPaddleCounter < 5'b10000) 
+			if (yPaddleCounter < paddle2_size) 
 			begin
 				x <= pad2_x;// Same as init_paddle
 				y <= pad2_y + yPaddleCounter[3:0];
@@ -359,7 +371,7 @@ begin
 		
 		DRAW_PADDLE_2: 
 		begin
-			if (yPaddleCounter < 5'b10000) 
+			if (yPaddleCounter < paddle2_size) 
 			begin
 				x <= pad2_x;
 				y <= pad2_y + yPaddleCounter[3:0];
@@ -374,9 +386,12 @@ begin
 		
 		ERASE_BALL: 
 		begin
+			if ( (ball_x == 8'd80) && ( (ball_y % 8'd2 ) == 8'd0 ) )
+				colour <= 3'b111;
+			else
+				colour <= 3'b000;
 			x <= ball_x;
 			y <= ball_y;
-			colour <= 3'b000;
 		end
 		
 		UPDATE_BALL: 
@@ -384,30 +399,36 @@ begin
 			if ((ball_y == 8'd0) || (ball_y == -8'd136))
 				ball_ydir = ~ball_ydir;
 			if (~ball_xdir)
-				ball_x <= ball_x + 2'd2; // moves ball right
+				ball_x <= ball_x + ball_speed; // moves ball right
 			else
-				ball_x <= ball_x - 2'd2; // moves ball left
+				ball_x <= ball_x - ball_speed; // moves ball left
 				
 			if (ball_ydir) 
-				ball_y <= ball_y + 2'd2; // moves ball up
+				ball_y <= ball_y + ball_speed; // moves ball up
 			else 
-				ball_y <= ball_y - 2'd2; // moves ball down
+				ball_y <= ball_y - ball_speed; // moves ball down
 				
 			if ((ball_x == 8'd0) || (ball_x == 8'd160) || ((ball_xdir) && (ball_x > pad_x - 8'd1) && 
-			   (ball_x < pad_x + 8'd3) && (ball_y >= pad_y) && (ball_y <= pad_y + 8'd15))) 
+			   (ball_x < pad_x + 8'd3) && (ball_y >= pad_y) && (ball_y <= pad_y + (paddle1_size)))) 
 				ball_xdir <= ~ball_xdir;
 			
 			else if (((~ball_xdir) && (ball_x < pad2_x + 8'd1) && 
-			   (ball_x > pad2_x - 8'd3) && (ball_y >= pad2_y) && (ball_y <= pad2_y + 8'd15)))
+			   (ball_x > pad2_x - 8'd3) && (ball_y >= pad2_y) && (ball_y <= pad2_y + (paddle2_size))))
 				ball_xdir <= ~ball_xdir;
 
 			
 
 			end
-		SCORE_LEFT: left_score <= left_score + 4'd1;
+		SCORE_LEFT: 
+		begin
+		left_score <= left_score + 4'd1;
+		end
 
 
-		SCORE_RIGHT: right_score <= right_score + 4'd1;
+		SCORE_RIGHT: 
+		begin
+		right_score <= right_score + 4'd1;
+		end 
 		DRAW_BALL:
 		begin
 			x <= ball_x;
@@ -417,7 +438,7 @@ begin
 		
 		// when ball contacts the brick changes x direction same for update brick 1-5
 		
-		GAME_OVER: 
+		RIGHT_WIN: 
 		begin
 			if (drawBackgroundCounter < 17'b10000000000000000)
 			begin
@@ -425,6 +446,16 @@ begin
 				y <= drawBackgroundCounter [16:8];
 				drawBackgroundCounter <= drawBackgroundCounter + 1'b1;
 				colour <= 3'b100;
+			end
+		end
+		LEFT_WIN: 
+		begin
+			if (drawBackgroundCounter < 17'b10000000000000000)
+			begin
+				x <= drawBackgroundCounter [7:0];
+				y <= drawBackgroundCounter [16:8];
+				drawBackgroundCounter <= drawBackgroundCounter + 1'b1;
+				colour <= 3'b010;
 			end
 		end
 	endcase
